@@ -1,0 +1,25 @@
+{
+  "name": "can-i-eat-skill",
+  "version": "1.0.0",
+  "description": "饮食健康分析 Skill — 输入食物名称 + 用户身份，输出完整的饮食分析结果",
+  "main": "core/analyzer.js",
+  "keywords": [
+    "nutrition",
+    "food",
+    "health",
+    "diet",
+    "allergy",
+    "tcm"
+  ],
+  "author": "can-i-eat",
+  "license": "MIT",
+  "files": [
+    "core/",
+    "data/",
+    "examples/",
+    "SKILL.md"
+  ],
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "name": "can-i-eat",
+  "version": "1.0.0",
+  "description": "可以吃吗 - AI食物识别与饮食决策应用",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

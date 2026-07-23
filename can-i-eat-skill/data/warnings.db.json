@@ -1,0 +1,242 @@
+[
+  {
+    "id": "w001",
+    "type": "drug",
+    "item": "头孢类药物",
+    "conflict": "酒精",
+    "effect": "双硫仑样反应，面部潮红、心悸、呼吸困难，严重可致命",
+    "level": "致命"
+  },
+  {
+    "id": "w002",
+    "type": "drug",
+    "item": "降压药",
+    "conflict": "高钠食物",
+    "effect": "抵消降压效果，加重水钠潴留",
+    "level": "严重"
+  },
+  {
+    "id": "w003",
+    "type": "drug",
+    "item": "降糖药/胰岛素",
+    "conflict": "酒精",
+    "effect": "增强降糖作用，引发低血糖昏迷",
+    "level": "严重"
+  },
+  {
+    "id": "w004",
+    "type": "drug",
+    "item": "抗凝药（华法林）",
+    "conflict": "富含维生素K食物（菠菜、西兰花、动物肝脏）",
+    "effect": "降低抗凝效果，增加血栓风险",
+    "level": "严重"
+  },
+  {
+    "id": "w005",
+    "type": "drug",
+    "item": "铁剂",
+    "conflict": "茶、咖啡",
+    "effect": "鞣酸与铁结合，降低铁吸收",
+    "level": "中等"
+  },
+  {
+    "id": "w006",
+    "type": "drug",
+    "item": "单胺氧化酶抑制剂（MAOI）",
+    "conflict": "富含酪胺食物（奶酪、腌制肉类、发酵豆制品）",
+    "effect": "酪胺蓄积导致高血压危象",
+    "level": "严重"
+  },
+  {
+    "id": "w007",
+    "type": "drug",
+    "item": "他汀类降脂药",
+    "conflict": "西柚/葡萄柚",
+    "effect": "抑制药物代谢，增加横纹肌溶解风险",
+    "level": "严重"
+  },
+  {
+    "id": "w008",
+    "type": "drug",
+    "item": "地高辛",
+    "conflict": "甘草",
+    "effect": "导致低钾血症，增加地高辛毒性",
+    "level": "严重"
+  },
+  {
+    "id": "w009",
+    "type": "food",
+    "item": "海鲜",
+    "conflict": "酒",
+    "effect": "诱发痛风发作，加重过敏反应",
+    "level": "注意"
+  },
+  {
+    "id": "w010",
+    "type": "food",
+    "item": "菠菜",
+    "conflict": "豆腐/高钙食物",
+    "effect": "草酸与钙结合形成草酸钙，影响钙吸收",
+    "level": "轻微"
+  },
+  {
+    "id": "w011",
+    "type": "food",
+    "item": "豆浆",
+    "conflict": "生鸡蛋/未煮熟鸡蛋",
+    "effect": "抗胰蛋白酶影响蛋白质消化",
+    "level": "轻微"
+  },
+  {
+    "id": "w012",
+    "type": "food",
+    "item": "牛奶",
+    "conflict": "酸性水果（橘子、柠檬）",
+    "effect": "蛋白质遇酸凝固，影响消化吸收",
+    "level": "轻微"
+  },
+  {
+    "id": "w013",
+    "type": "food",
+    "item": "红薯",
+    "conflict": "甜食",
+    "effect": "大量刺激胃酸分泌，引起反酸烧心",
+    "level": "中等"
+  },
+  {
+    "id": "w014",
+    "type": "disease",
+    "item": "糖尿病",
+    "conflict": "高糖食物（糖果、蛋糕、含糖饮料）",
+    "effect": "血糖急剧升高，加重胰岛负担",
+    "level": "严重"
+  },
+  {
+    "id": "w015",
+    "type": "disease",
+    "item": "高血压",
+    "conflict": "高盐食物（腌制品、酱菜、加工食品）",
+    "effect": "血压升高，增加心脑血管事件风险",
+    "level": "严重"
+  },
+  {
+    "id": "w016",
+    "type": "disease",
+    "item": "高血脂",
+    "conflict": "高脂高胆固醇食物（动物内脏、肥肉、油炸食品）",
+    "effect": "血脂升高，加速动脉粥样硬化",
+    "level": "严重"
+  },
+  {
+    "id": "w017",
+    "type": "disease",
+    "item": "痛风",
+    "conflict": "高嘌呤食物（动物内脏、海鲜、浓汤、啤酒）",
+    "effect": "尿酸升高，诱发痛风急性发作",
+    "level": "严重"
+  },
+  {
+    "id": "w018",
+    "type": "disease",
+    "item": "胃炎/胃溃疡",
+    "conflict": "辛辣刺激食物、酒、浓茶、咖啡",
+    "effect": "刺激胃黏膜，加重炎症和疼痛",
+    "level": "中等"
+  },
+  {
+    "id": "w019",
+    "type": "disease",
+    "item": "肾病",
+    "conflict": "高蛋白高盐食物",
+    "effect": "加重肾脏负担，加速肾功能恶化",
+    "level": "严重"
+  },
+  {
+    "id": "w020",
+    "type": "disease",
+    "item": "肝病",
+    "conflict": "酒精、油炸食品",
+    "effect": "加重肝损伤，影响肝功能恢复",
+    "level": "严重"
+  },
+  {
+    "id": "w021",
+    "type": "disease",
+    "item": "甲状腺疾病",
+    "conflict": "大量生食十字花科蔬菜（西兰花、卷心菜、萝卜）",
+    "effect": "硫氰酸盐影响甲状腺功能",
+    "level": "中等"
+  },
+  {
+    "id": "w022",
+    "type": "special",
+    "item": "孕妇",
+    "conflict": "生鱼片、生肉、未煮熟的蛋、未巴氏消毒奶制品",
+    "effect": "李斯特菌、弓形虫感染风险，影响胎儿",
+    "level": "严重"
+  },
+  {
+    "id": "w023",
+    "type": "special",
+    "item": "婴幼儿（1岁以下）",
+    "conflict": "蜂蜜",
+    "effect": "肉毒杆菌芽孢中毒风险",
+    "level": "致命"
+  },
+  {
+    "id": "w024",
+    "type": "special",
+    "item": "哺乳期",
+    "conflict": "酒精、大量咖啡因、辛辣刺激食物",
+    "effect": "通过乳汁影响婴儿，刺激婴儿肠胃",
+    "level": "中等"
+  },
+  {
+    "id": "w025",
+    "type": "allergy",
+    "item": "花生过敏者",
+    "conflict": "花生及任何含花生成分的食品",
+    "effect": "严重过敏反应，可致过敏性休克",
+    "level": "致命"
+  },
+  {
+    "id": "w026",
+    "type": "allergy",
+    "item": "乳糖不耐受者",
+    "conflict": "牛奶及乳制品",
+    "effect": "腹胀、腹泻、腹痛",
+    "level": "中等"
+  },
+  {
+    "id": "w027",
+    "type": "food",
+    "item": "柿子",
+    "conflict": "螃蟹/高蛋白食物",
+    "effect": "鞣酸与蛋白质结合形成胃石",
+    "level": "中等"
+  },
+  {
+    "id": "w028",
+    "type": "food",
+    "item": "榴莲",
+    "conflict": "酒",
+    "effect": "加重肝脏负担，影响酒精代谢",
+    "level": "注意"
+  },
+  {
+    "id": "w029",
+    "type": "disease",
+    "item": "缺铁性贫血",
+    "conflict": "茶、咖啡、高钙食物与补铁同服",
+    "effect": "抑制铁的吸收",
+    "level": "中等"
+  },
+  {
+    "id": "w030",
+    "type": "special",
+    "item": "痛风患者",
+    "conflict": "果糖饮料、高果糖水果（荔枝、龙眼）",
+    "effect": "果糖代谢产生尿酸，加重痛风",
+    "level": "严重"
+  }
+]

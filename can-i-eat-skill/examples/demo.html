@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>可以吃吗？ - 饮食健康分析 Skill 演示</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      background: linear-gradient(135deg, #e0f7fa 0%, #e8f5e9 50%, #fff8e1 100%);
+      min-height: 100vh;
+      padding: 20px;
+      color: #333;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      text-align: center;
+      color: #2e7d32;
+      margin-bottom: 8px;
+      font-size: 32px;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #666;
+      margin-bottom: 30px;
+      font-size: 14px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    .card-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: #2e7d32;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .form-row {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+
+    .form-group {
+      flex: 1;
+      min-width: 150px;
+    }
+
+    label {
+      display: block;
+      font-size: 14px;
+      font-weight: 500;
+      color: #555;
+      margin-bottom: 6px;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1.5px solid #e0e0e0;
+      border-radius: 10px;
+      font-size: 15px;
+      transition: border-color 0.2s;
+    }
+
+    input:focus, select:focus {
+      outline: none;
+      border-color: #4caf50;
+    }
+
+    .analyze-btn {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(135deg, #4caf50, #2e7d32);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 17px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .analyze-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(76, 175, 80, 0.3);
+    }
+
+    .analyze-btn:active {
+      transform: translateY(0);
+    }
+
+    .result-section {
+      display: none;
+    }
+
+    .result-section.active {
+      display: block;
+      animation: fadeIn 0.4s ease;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .conclusion {
+      text-align: center;
+      padding: 24px;
+      border-radius: 16px;
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+
+    .conclusion.can-eat {
+      background: linear-gradient(135deg, #c8e6c9, #a5d6a7);
+      color: #1b5e20;
+    }
+
+    .conclusion.cant-eat {
+      background: linear-gradient(135deg, #ffcdd2, #ef9a9a);
+      color: #b71c1c;
+    }
+
+    .conclusion.warning {
+      background: linear-gradient(135deg, #fff9c4, #fff59d);
+      color: #f57f17;
+    }
+
+    .nutrition-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+
+    .nutrient-item {
+      text-align: center;
+      padding: 12px 8px;
+      background: #f5f5f5;
+      border-radius: 10px;
+    }
+
+    .nutrient-value {
+      font-size: 20px;
+      font-weight: 700;
+      color: #2e7d32;
+    }
+
+    .nutrient-label {
+      font-size: 12px;
+      color: #888;
+      margin-top: 4px;
+    }
+
+    .warning-list {
+      list-style: none;
+    }
+
+    .warning-list li {
+      padding: 10px 14px;
+      margin-bottom: 8px;
+      border-radius: 10px;
+      font-size: 14px;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    .warning-list li.allergen {
+      background: #ffebee;
+      color: #b71c1c;
+      border-left: 4px solid #f44336;
+    }
+
+    .warning-list li.contraindication {
+      background: #fff3e0;
+      color: #e65100;
+      border-left: 4px solid #ff9800;
+    }
+
+    .warning-list li.info {
+      background: #e3f2fd;
+      color: #0d47a1;
+      border-left: 4px solid #2196f3;
+    }
+
+    .tip-list {
+      list-style: none;
+    }
+
+    .tip-list li {
+      padding: 10px 14px 10px 34px;
+      margin-bottom: 8px;
+      background: #f1f8e9;
+      border-radius: 10px;
+      font-size: 14px;
+      position: relative;
+      color: #33691e;
+    }
+
+    .tip-list li::before {
+      content: "💡";
+      position: absolute;
+      left: 10px;
+      top: 10px;
+      font-size: 15px;
+    }
+
+    .replace-list {
+      list-style: none;
+    }
+
+    .replace-list li {
+      padding: 10px 14px 10px 34px;
+      margin-bottom: 8px;
+      background: #e8f5e9;
+      border-radius: 10px;
+      font-size: 14px;
+      position: relative;
+      color: #1b5e20;
+    }
+
+    .replace-list li::before {
+      content: "🔄";
+      position: absolute;
+      left: 10px;
+      top: 10px;
+      font-size: 15px;
+    }
+
+    .summary {
+      font-size: 16px;
+      line-height: 1.6;
+      color: #333;
+      padding: 14px 16px;
+      background: #fafafa;
+      border-radius: 10px;
+      margin-bottom: 16px;
+      border-left: 4px solid #4caf50;
+    }
+
+    .json-output {
+      background: #263238;
+      color: #a5d6a7;
+      padding: 16px;
+      border-radius: 10px;
+      font-family: 'Consolas', 'Monaco', monospace;
+      font-size: 12px;
+      overflow-x: auto;
+      max-height: 400px;
+      overflow-y: auto;
+      white-space: pre-wrap;
+      word-break: break-all;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+
+    .tab {
+      padding: 8px 16px;
+      background: #f0f0f0;
+      border: none;
+      border-radius: 20px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .tab.active {
+      background: #4caf50;
+      color: white;
+    }
+
+    .footer {
+      text-align: center;
+      color: #999;
+      font-size: 12px;
+      margin-top: 30px;
+      padding-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🍽️ 可以吃吗？</h1>
+    <p class="subtitle">饮食健康分析 Skill · 输入食物名称 + 用户身份，输出完整分析结果</p>
+
+    <!-- 输入卡片 -->
+    <div class="card">
+      <div class="card-title">
+        <span>📝</span> 输入信息
+      </div>
+      
+      <div class="form-row">
+        <div class="form-group" style="flex: 2;">
+          <label>食物名称</label>
+          <input type="text" id="foodName" placeholder="例如：红烧肉、辣条、苹果" value="辣条">
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>性别</label>
+          <select id="gender">
+            <option value="male">男</option>
+            <option value="female">女</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>年龄</label>
+          <input type="number" id="age" value="25" min="1" max="120">
+        </div>
+        <div class="form-group">
+          <label>身份</label>
+          <select id="role">
+            <option value="general">普通用户</option>
+            <option value="fitness">健身达人</option>
+            <option value="weightLoss">减肥人士</option>
+            <option value="recovery">病后康复</option>
+            <option value="mom">宝妈/孕妇</option>
+            <option value="health">养生爱好者</option>
+            <option value="indecisive">选择纠结症</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>疾病史（可选）</label>
+          <input type="text" id="disease" placeholder="例如：糖尿病、高血压">
+        </div>
+      </div>
+
+      <button class="analyze-btn" onclick="doAnalyze()">🔍 开始分析</button>
+    </div>
+
+    <!-- 结果卡片 -->
+    <div class="result-section" id="resultSection">
+      <div class="card">
+        <div class="card-title">
+          <span>📊</span> 分析结果
+        </div>
+
+        <div class="conclusion" id="conclusionEl">--</div>
+
+        <div class="card-title" style="margin-top: 20px;">
+          <span>🥗</span> 营养成分（每100g）
+        </div>
+        <div class="nutrition-grid" id="nutritionGrid"></div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">
+          <span>⚠️</span> 风险提示
+        </div>
+        <div id="warningsBox"></div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">
+          <span>💬</span> 个性化建议
+        </div>
+        <div class="summary" id="summaryEl"></div>
+        
+        <div class="card-title" style="margin-top: 20px; font-size: 15px;">
+          <span>💡</span> 饮食建议
+        </div>
+        <ul class="tip-list" id="tipList"></ul>
+
+        <div class="card-title" style="margin-top: 20px; font-size: 15px;">
+          <span>🔄</span> 替代方案
+        </div>
+        <ul class="replace-list" id="replaceList"></ul>
+      </div>
+
+      <div class="card">
+        <div class="card-title">
+          <span>📋</span> 原始 JSON 输出
+        </div>
+        <div class="tabs">
+          <button class="tab active" onclick="toggleView('json', this)">JSON</button>
+        </div>
+        <pre class="json-output" id="jsonOutput"></pre>
+      </div>
+    </div>
+
+    <div class="footer">
+      can-i-eat-skill v1.0.0 · 数据仅供参考，具体请咨询专业营养师
+    </div>
+  </div>
+
+  <script src="../core/analyzer.js"></script>
+  <script>
+    // 由于浏览器环境没有 require，我们需要通过 fetch 加载 JSON 并重新实现分析逻辑
+    // 这里使用浏览器版实现
+    
+    let nutritionDB = {};
+    let warningsDB = [];
+
+    // 加载数据库
+    async function loadDB() {
+      try {
+        const [nutRes, warnRes] = await Promise.all([
+          fetch('../data/nutrition.db.json'),
+          fetch('../data/warnings.db.json')
+        ]);
+        nutritionDB = await nutRes.json();
+        warningsDB = await warnRes.json();
+        console.log('数据库加载完成，食物数量:', Object.keys(nutritionDB).length, '禁忌数量:', warningsDB.length);
+      } catch (e) {
+        console.error('数据库加载失败:', e);
+        alert('数据库加载失败，请确保通过本地服务器访问（如 Live Server）');
+      }
+    }
+
+    // 获取营养数据
+    function getNutritionData(foodName) {
+      if (!foodName) return null;
+      const trimmedName = foodName.trim();
+      
+      if (nutritionDB[trimmedName]) {
+        return { ...nutritionDB[trimmedName], matchType: 'exact', matchName: trimmedName };
+      }
+      
+      for (const key of Object.keys(nutritionDB)) {
+        if (key.includes(trimmedName) || trimmedName.includes(key)) {
+          return { ...nutritionDB[key], matchType: 'fuzzy', matchName: key };
+        }
+      }
+      return null;
+    }
+
+    // 过敏原检测
+    const COMMON_ALLERGENS = ['小麦', '花生', '坚果', '鸡蛋', '海鲜', '鱼类', '牛奶', '大豆', '芝麻'];
+    
+    function detectAllergens(foodData) {
+      if (!foodData) return [];
+      const allergens = new Set();
+      const foodAllergens = foodData.allergens || [];
+      const ingredients = foodData.ingredients || [];
+      
+      foodAllergens.forEach(a => allergens.add(a));
+      
+      const ingredientText = ingredients.join('、');
+      COMMON_ALLERGENS.forEach(a => {
+        if (ingredientText.includes(a)) allergens.add(a);
+      });
+      
+      if (ingredientText.includes('面粉') || ingredientText.includes('小麦粉')) allergens.add('小麦');
+      if (ingredientText.includes('鸡蛋') || ingredientText.includes('蛋黄') || ingredientText.includes('蛋白')) allergens.add('鸡蛋');
+      if (ingredientText.includes('牛奶') || ingredientText.includes('奶粉') || ingredientText.includes('芝士')) allergens.add('牛奶');
+      if (ingredientText.includes('大豆') || ingredientText.includes('黄豆') || ingredientText.includes('酱油') || ingredientText.includes('豆腐')) allergens.add('大豆');
+      if (ingredientText.includes('花生')) allergens.add('花生');
+      if (ingredientText.includes('坚果') || ingredientText.includes('核桃') || ingredientText.includes('杏仁')) allergens.add('坚果');
+      if (ingredientText.includes('鱼') || ingredientText.includes('虾') || ingredientText.includes('蟹') || ingredientText.includes('海鲜')) allergens.add('海鲜');
+      if (ingredientText.includes('芝麻')) allergens.add('芝麻');
+      
+      return Array.from(allergens);
+    }
+
+    // 禁忌匹配（简化版）
+    function matchContraindications(foodData, userProfile) {
+      if (!foodData) return [];
+      const contraindications = new Set();
+      const ingredients = foodData.ingredients || [];
+      const foodTags = foodData.tags || [];
+      const foodName = foodData.matchName || '';
+      
+      const disease = userProfile?.disease || '';
+      const role = userProfile?.role || 'general';
+      const age = userProfile?.age || 30;
+      
+      warningsDB.forEach(warning => {
+        const conflict = warning.conflict || '';
+        const item = warning.item || '';
+        
+        const hasConflict = ingredients.some(ing =>
+          conflict.includes(ing) || ing.includes(conflict) ||
+          foodTags.some(tag => tag.includes(conflict) || conflict.includes(tag)) ||
+          foodName.includes(conflict) || conflict.includes(foodName)
+        );
+        
+        if (hasConflict) {
+          if (warning.type === 'disease' && disease && item.includes(disease)) {
+            contraindications.add(`${item}患者${warning.effect}`);
+          }
+          if (warning.type === 'food') {
+            contraindications.add(`与${item}同食：${warning.effect}`);
+          }
+          if (warning.type === 'special') {
+            if (role === 'mom' && (item.includes('孕妇') || item.includes('哺乳期'))) {
+              contraindications.add(`${item}注意：${warning.effect}`);
+            }
+          }
+        }
+      });
+      
+      if (age < 18 && ingredients.some(i => i.includes('酒'))) {
+        contraindications.add('未成年人禁止饮酒');
+      }
+      
+      if (age >= 65 && foodTags.includes('高糖')) {
+        contraindications.add('老年人代谢减慢，高糖食物需严格控制');
+      }
+      
+      return Array.from(contraindications);
+    }
+
+    // 个性化建议（简化版）
+    function generateCustomAdvice(foodData, allergens, contraindications, userProfile) {
+      const role = userProfile?.role || 'general';
+      const nutrition = foodData?.nutrition || {};
+      const foodName = foodData?.matchName || '该食物';
+      const category = foodData?.category || '';
+      
+      const dietTips = [];
+      const replaceSuggestions = [];
+      let summary = '';
+      
+      const protein = nutrition.protein || 0;
+      const calories = nutrition.calories || 0;
+      const fat = nutrition.fat || 0;
+      const fiber = nutrition.fiber || 0;
+      const sodium = nutrition.sodium || 0;
+      
+      switch (role) {
+        case 'fitness':
+          if (protein >= 15) {
+            dietTips.push(`蛋白质丰富（${protein}g/100g），适合训练后补充，促进肌肉合成`);
+          } else {
+            dietTips.push(`蛋白质含量一般（${protein}g/100g），建议额外补充优质蛋白质`);
+            replaceSuggestions.push('可替换为鸡胸肉、鸡蛋、鱼虾等高蛋低脂食物');
+          }
+          summary = `${foodName}营养${calories > 300 ? '热量较高，增肌期可适量' : '均衡，适合日常'}食用`;
+          break;
+          
+        case 'weightLoss':
+          if (calories > 250) {
+            dietTips.push(`热量偏高（${calories}kcal/100g），减肥期间建议少量食用`);
+            replaceSuggestions.push('可用低热量高纤维蔬菜替代，如黄瓜、番茄、生菜');
+          } else {
+            dietTips.push(`低热量食物（${calories}kcal/100g），减肥期间可多吃增加饱腹感`);
+          }
+          summary = `减肥期间${calories > 200 ? '需谨慎食用' : '可以适量食用'} ${foodName}`;
+          break;
+          
+        case 'recovery':
+          dietTips.push('病后康复期饮食宜清淡、易消化、营养均衡');
+          if (protein >= 10) {
+            dietTips.push(`蛋白质含量较高（${protein}g/100g），有助于组织修复和免疫力恢复`);
+          }
+          if (sodium > 500) {
+            dietTips.push(`钠含量较高（${sodium}mg/100g），康复期建议清淡饮食`);
+          }
+          summary = `${foodName}病后康复期${sodium > 500 ? '需谨慎食用' : '可适量食用'}`;
+          break;
+          
+        case 'mom':
+          if (protein >= 8) {
+            dietTips.push(`蛋白质含量较好（${protein}g/100g），有助于胎儿发育`);
+          }
+          if (allergens.length > 0) {
+            dietTips.push(`含过敏原（${allergens.join('、')}），孕期可少量尝试`);
+          }
+          dietTips.push('避免生食，确保食物彻底煮熟');
+          summary = `${foodName}宝妈/孕妇${sodium > 800 ? '需适量少吃' : '可以食用'}`;
+          break;
+          
+        case 'health':
+          const tcmMap = {
+            '水果': '性偏凉，生津止渴，脾胃虚寒者不宜过量',
+            '蔬菜': '性平凉，清热通便，适合大多数人',
+            '肉类': '性偏温，补虚益气，内热旺盛者适量',
+            '零食': '性偏燥热，易生痰湿，养生应少食',
+            '主食': '性平，健脾养胃，为气血生化之源'
+          };
+          dietTips.push(tcmMap[category] || '性平味甘，适量食用有益健康');
+          if (fiber >= 3) dietTips.push('膳食纤维丰富，有助于肠道通畅');
+          summary = `${foodName}${sodium > 500 ? '养生需适量' : '适合养生食用'}`;
+          break;
+          
+        case 'indecisive':
+          let score = 70;
+          if (protein >= 15) score += 10;
+          if (fiber >= 3) score += 10;
+          if (calories > 400) score -= 15;
+          if (sodium > 1000) score -= 15;
+          score = Math.max(0, Math.min(100, score));
+          dietTips.push(`综合健康评分：${score}/100`);
+          if (score >= 80) {
+            replaceSuggestions.push('👍 推荐食用，营养价值较高');
+          } else if (score >= 60) {
+            replaceSuggestions.push('⚠️ 可以吃但需适量，注意营养均衡');
+          } else {
+            replaceSuggestions.push('👎 不太推荐，营养价值偏低');
+          }
+          summary = `${foodName} 健康评分 ${score}/100，${score >= 60 ? '可以吃' : '建议少吃'}`;
+          break;
+          
+        default:
+          if (protein >= 10) dietTips.push('蛋白质含量较高，有助于维持身体机能');
+          if (sodium > 600) dietTips.push('钠含量较高，注意控制每日总摄入量');
+          summary = `${foodName}可以适量食用，注意饮食均衡`;
+      }
+      
+      if (sodium > 600) {
+        dietTips.push('钠含量较高，建议搭配高钾食物，每日钠摄入控制在2300mg以内');
+      }
+      if (fat > 20) {
+        dietTips.push('脂肪含量较高，建议减少烹饪用油，搭配高纤维蔬菜');
+      }
+      
+      return { summary, dietTips, replaceSuggestions };
+    }
+
+    // 综合判定
+    function determineConclusion(allergens, contraindications, nutrition, userProfile) {
+      const hasFatal = contraindications.some(c => c.includes('致命') || c.includes('禁止') || c.includes('休克'));
+      const hasSevere = contraindications.some(c => c.includes('严重') || c.includes('加重') || c.includes('风险'));
+      
+      if (hasFatal) return '不建议吃';
+      if (hasSevere || contraindications.length >= 3) return '需注意';
+      return '可以吃';
+    }
+
+    // 主分析函数
+    async function analyzeFood(foodName, userProfile = {}) {
+      const profile = {
+        gender: userProfile.gender || 'male',
+        age: userProfile.age || 30,
+        role: userProfile.role || 'general',
+        disease: userProfile.disease || ''
+      };
+      
+      const foodData = getNutritionData(foodName);
+      
+      if (!foodData) {
+        return {
+          foodName,
+          conclusion: '需注意',
+          nutrition: { calories: null, protein: null, carbs: null, fat: null, fiber: null, sodium: null },
+          warnings: { allergens: [], contraindications: ['数据待补充：该食物暂未收录'] },
+          customAdvice: {
+            summary: `${foodName}暂无详细数据，建议适量食用`,
+            dietTips: ['饮食多样化，均衡营养'],
+            replaceSuggestions: ['可选择已收录的同类食物']
+          },
+          meta: { status: 'pending', message: '数据待补充' }
+        };
+      }
+      
+      const allergens = detectAllergens(foodData);
+      const contraindications = matchContraindications(foodData, profile);
+      const customAdvice = generateCustomAdvice(foodData, allergens, contraindications, profile);
+      const conclusion = determineConclusion(allergens, contraindications, foodData.nutrition, profile);
+      
+      return {
+        foodName: foodData.matchName || foodName,
+        conclusion,
+        nutrition: {
+          calories: foodData.nutrition.calories || 0,
+          protein: foodData.nutrition.protein || 0,
+          carbs: foodData.nutrition.carbs || 0,
+          fat: foodData.nutrition.fat || 0,
+          fiber: foodData.nutrition.fiber || 0,
+          sodium: foodData.nutrition.sodium || 0
+        },
+        warnings: { allergens, contraindications },
+        customAdvice,
+        meta: {
+          status: 'success',
+          matchType: foodData.matchType,
+          category: foodData.category,
+          ingredients: foodData.ingredients || []
+        }
+      };
+    }
+
+    // 执行分析
+    async function doAnalyze() {
+      const foodName = document.getElementById('foodName').value.trim();
+      if (!foodName) {
+        alert('请输入食物名称');
+        return;
+      }
+      
+      const userProfile = {
+        gender: document.getElementById('gender').value,
+        age: parseInt(document.getElementById('age').value) || 25,
+        role: document.getElementById('role').value,
+        disease: document.getElementById('disease').value.trim()
+      };
+      
+      const result = await analyzeFood(foodName, userProfile);
+      renderResult(result);
+    }
+
+    // 渲染结果
+    function renderResult(result) {
+      document.getElementById('resultSection').classList.add('active');
+      
+      // 结论
+      const conclusionEl = document.getElementById('conclusionEl');
+      conclusionEl.textContent = result.conclusion;
+      conclusionEl.className = 'conclusion';
+      if (result.conclusion === '可以吃') conclusionEl.classList.add('can-eat');
+      else if (result.conclusion === '不建议吃') conclusionEl.classList.add('cant-eat');
+      else conclusionEl.classList.add('warning');
+      
+      // 营养成分
+      const nutrition = result.nutrition;
+      const nutrientItems = [
+        { label: '热量', value: nutrition.calories, unit: 'kcal' },
+        { label: '蛋白质', value: nutrition.protein, unit: 'g' },
+        { label: '碳水', value: nutrition.carbs, unit: 'g' },
+        { label: '脂肪', value: nutrition.fat, unit: 'g' },
+        { label: '纤维', value: nutrition.fiber, unit: 'g' },
+        { label: '钠', value: nutrition.sodium, unit: 'mg' }
+      ];
+      
+      document.getElementById('nutritionGrid').innerHTML = nutrientItems.map(item => `
+        <div class="nutrient-item">
+          <div class="nutrient-value">${item.value !== null ? item.value : '--'}</div>
+          <div class="nutrient-label">${item.label}${item.unit}</div>
+        </div>
+      `).join('');
+      
+      // 风险提示
+      const warnings = result.warnings;
+      let warningsHtml = '';
+      
+      if (warnings.allergens.length > 0) {
+        warningsHtml += `<h4 style="margin: 12px 0 8px; color: #d32f2f; font-size: 14px;">过敏原</h4>`;
+        warningsHtml += '<ul class="warning-list">';
+        warnings.allergens.forEach(a => {
+          warningsHtml += `<li class="allergen">⚠️ 含有${a}，过敏人群请避免食用</li>`;
+        });
+        warningsHtml += '</ul>';
+      }
+      
+      if (warnings.contraindications.length > 0) {
+        warningsHtml += `<h4 style="margin: 12px 0 8px; color: #e65100; font-size: 14px;">禁忌/注意事项</h4>`;
+        warningsHtml += '<ul class="warning-list">';
+        warnings.contraindications.forEach(c => {
+          warningsHtml += `<li class="contraindication">${c}</li>`;
+        });
+        warningsHtml += '</ul>';
+      }
+      
+      if (warnings.allergens.length === 0 && warnings.contraindications.length === 0) {
+        warningsHtml = '<ul class="warning-list"><li class="info">✅ 未发现明显风险，可以放心食用</li></ul>';
+      }
+      
+      document.getElementById('warningsBox').innerHTML = warningsHtml;
+      
+      // 个性化建议
+      document.getElementById('summaryEl').textContent = result.customAdvice.summary;
+      
+      document.getElementById('tipList').innerHTML = result.customAdvice.dietTips
+        .map(tip => `<li>${tip}</li>`).join('');
+      
+      document.getElementById('replaceList').innerHTML = result.customAdvice.replaceSuggestions.length > 0
+        ? result.customAdvice.replaceSuggestions.map(s => `<li>${s}</li>`).join('')
+        : '<li>暂无替代方案建议</li>';
+      
+      // JSON 输出
+      document.getElementById('jsonOutput').textContent = JSON.stringify(result, null, 2);
+      
+      // 滚动到结果
+      document.getElementById('resultSection').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    // 页面加载时初始化
+    loadDB();
+    
+    // 回车触发分析
+    document.getElementById('foodName').addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') doAnalyze();
+    });
+  </script>
+</body>
+</html>
