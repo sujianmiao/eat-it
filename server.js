@@ -401,6 +401,41 @@ http.createServer((req, res) => {
   console.log(`     POST /api/baidu/plant                → 植物识别`);
   console.log(`     POST /api/baidu/general              → 通用物体识别`);
   console.log(`     POST /api/video/screenshot           → 视频截图\n`);
+
+  // ===== 调试：启动时打印 assest 目录结构 =====
+  console.log('========== 启动调试信息 ==========');
+  console.log('当前工作目录:', process.cwd());
+  console.log('__dirname:', __dirname);
+  try {
+    console.log('--- 根目录文件 ---');
+    fs.readdirSync(__dirname).forEach(f => console.log('  ', f));
+    console.log('--- assest/ 目录 ---');
+    const assestPath = path.join(__dirname, 'assest');
+    if (fs.existsSync(assestPath)) {
+      fs.readdirSync(assestPath).forEach(f => console.log('  ', f));
+      console.log('--- assest/图标/ 目录 ---');
+      const iconPath = path.join(assestPath, '图标');
+      if (fs.existsSync(iconPath)) {
+        fs.readdirSync(iconPath).forEach(f => console.log('  ', f));
+        console.log('--- assest/图标/健康/ 文件数 ---');
+        const healthPath = path.join(iconPath, '健康');
+        if (fs.existsSync(healthPath)) {
+          const files = fs.readdirSync(healthPath);
+          console.log('  文件数:', files.length);
+          files.slice(0, 3).forEach(f => console.log('  示例:', f));
+        } else {
+          console.log('  ❌ 健康 文件夹不存在');
+        }
+      } else {
+        console.log('  ❌ 图标 文件夹不存在');
+      }
+    } else {
+      console.log('  ❌ assest 文件夹不存在！');
+    }
+  } catch (e) {
+    console.log('调试出错:', e.message);
+  }
+  console.log('========== 调试信息结束 ==========\n');
 });
 
 function resolveDouyinUrl(url) {
