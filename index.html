@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
@@ -56,7 +56,7 @@
 html, body { height: 100%; }
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', sans-serif;
-  background: url('assest/背景.png') center/cover no-repeat fixed;
+  background: url('assest/background.png') center/cover no-repeat fixed;
   background-color: var(--bg-solid);
   color: var(--text);
   line-height: 1.6;
@@ -3566,12 +3566,12 @@ textarea.input-field {
 
 <!-- BGM 音频 -->
 <audio id="bgm-audio" loop preload="auto">
-  <source src="assest/晨间膳食.mp3" type="audio/mpeg">
+  <source src="assest/bgm.mp3" type="audio/mpeg">
 </audio>
 
 <!-- BGM 声音控制按钮 -->
 <div class="bgm-toggle playing" id="bgm-toggle" onclick="toggleBGM()">
-  <img src="assest/声音.png" alt="音乐" class="bgm-icon">
+  <img src="assest/sound.png" alt="音乐" class="bgm-icon">
   <span class="bgm-label">我会唱歌</span>
 </div>
 
@@ -3580,7 +3580,7 @@ textarea.input-field {
   <!-- ===== 开场页 ===== -->
   <div class="page active" id="page-splash">
     <video class="splash-video" autoplay loop muted playsinline>
-      <source src="assest/开场动画.mp4" type="video/mp4">
+      <source src="assest/intro.mp4" type="video/mp4">
     </video>
     <div class="splash-content">
       <div class="splash-start-btn" onclick="navigateTo('upload')">
@@ -3592,7 +3592,7 @@ textarea.input-field {
   <!-- ===== 页面1: 上传与识别页 ===== -->
   <div class="page" id="page-upload">
     <div class="welcome-logo">
-      <div class="icon"><img src="assest/疑惑.png" alt="logo"></div>
+      <div class="icon"><img src="assest/doubt.png" alt="logo"></div>
       <div class="title">可以吃吗</div>
       <div class="subtitle">想吃随心所欲，饮食有理有据</div>
     </div>
@@ -4026,7 +4026,7 @@ textarea.input-field {
 <!-- Loading -->
 <div class="loading-overlay" id="loading">
   <video class="video-bg" id="loading-video" autoplay loop muted playsinline>
-    <source src="assest/食物过场动画.mp4" type="video/mp4">
+    <source src="assest/food-transition.mp4" type="video/mp4">
   </video>
   <!-- 掉落游戏层 -->
   <div class="drop-game" id="drop-game">
@@ -9798,46 +9798,46 @@ async function goToDecision() {
 // ==================== Loading 掉落小游戏 ====================
 const DROP_GAME = {
   healthyImgs: [
-    'assest/图标/健康/01a8cc17-bc45-4772-af50-278373c5bc85.png',
-    'assest/图标/健康/01b9e1b6-49da-4d0d-98bf-d399d5a5bf95.png',
-    'assest/图标/健康/092ad172-ad77-4618-a557-0546cbcf348b.png',
-    'assest/图标/健康/175c1ffa-6946-48c5-bcc1-94132afc2cf4.png',
-    'assest/图标/健康/250c7048-7908-492d-a1a7-a9eef8dcea4c.png',
-    'assest/图标/健康/2a952361-aff8-4e6c-be36-0b6bcc1fa68c.png',
-    'assest/图标/健康/470f524e-249d-4980-b690-d84735b39da8.png',
-    'assest/图标/健康/61deed4f-ceeb-42f7-902b-ffce585795d6.png',
-    'assest/图标/健康/69e59b5d-844d-450e-ac2a-b95e34a3cda5.png',
-    'assest/图标/健康/7e378868-7941-42e7-a9fb-c5ef07daa7e5.png',
-    'assest/图标/健康/86a7260c-8095-4287-ac49-5cddfb3659f9.png',
-    'assest/图标/健康/8e027f30-fc68-4968-a494-edfd706a3b3f.png',
-    'assest/图标/健康/93bb85cb-8d03-4621-9c18-41835bd61942.png',
-    'assest/图标/健康/b06a50f0-ed90-4237-b83d-53f7f41c2dde.png',
-    'assest/图标/健康/b3c93d39-3a52-4559-b0f1-bbb683ebc7ba.png',
-    'assest/图标/健康/c50d2ab9-7fcb-408a-9e01-37282da08eba.png',
-    'assest/图标/健康/c563dd8a-6c2d-413e-b922-8e6f135923f6.png',
-    'assest/图标/健康/ddd46bfb-c542-4255-b3f9-712b4939a99d.png',
-    'assest/图标/健康/e4c61a43-11a6-4ded-8a82-11c367a213b4.png'
+    'assest/icons/healthy/01a8cc17-bc45-4772-af50-278373c5bc85.png',
+    'assest/icons/healthy/01b9e1b6-49da-4d0d-98bf-d399d5a5bf95.png',
+    'assest/icons/healthy/092ad172-ad77-4618-a557-0546cbcf348b.png',
+    'assest/icons/healthy/175c1ffa-6946-48c5-bcc1-94132afc2cf4.png',
+    'assest/icons/healthy/250c7048-7908-492d-a1a7-a9eef8dcea4c.png',
+    'assest/icons/healthy/2a952361-aff8-4e6c-be36-0b6bcc1fa68c.png',
+    'assest/icons/healthy/470f524e-249d-4980-b690-d84735b39da8.png',
+    'assest/icons/healthy/61deed4f-ceeb-42f7-902b-ffce585795d6.png',
+    'assest/icons/healthy/69e59b5d-844d-450e-ac2a-b95e34a3cda5.png',
+    'assest/icons/healthy/7e378868-7941-42e7-a9fb-c5ef07daa7e5.png',
+    'assest/icons/healthy/86a7260c-8095-4287-ac49-5cddfb3659f9.png',
+    'assest/icons/healthy/8e027f30-fc68-4968-a494-edfd706a3b3f.png',
+    'assest/icons/healthy/93bb85cb-8d03-4621-9c18-41835bd61942.png',
+    'assest/icons/healthy/b06a50f0-ed90-4237-b83d-53f7f41c2dde.png',
+    'assest/icons/healthy/b3c93d39-3a52-4559-b0f1-bbb683ebc7ba.png',
+    'assest/icons/healthy/c50d2ab9-7fcb-408a-9e01-37282da08eba.png',
+    'assest/icons/healthy/c563dd8a-6c2d-413e-b922-8e6f135923f6.png',
+    'assest/icons/healthy/ddd46bfb-c542-4255-b3f9-712b4939a99d.png',
+    'assest/icons/healthy/e4c61a43-11a6-4ded-8a82-11c367a213b4.png'
   ],
   unhealthyImgs: [
-    'assest/图标/不健康/0232b197-3ea6-46df-b6d3-80b2d2fb1814.png',
-    'assest/图标/不健康/0ced470a-40d8-4ec0-8cb9-bfd751521f64.png',
-    'assest/图标/不健康/1b3ae1df-eaa3-4f0f-aadc-51f24a9de94c.png',
-    'assest/图标/不健康/2f2eab87-a0d9-4675-93c5-f91217ccafe1.png',
-    'assest/图标/不健康/35874331-b8b9-4fee-a4f2-c0e0afb58ba6.png',
-    'assest/图标/不健康/44bfea62-576c-45cd-bd26-713fa9a345c9.png',
-    'assest/图标/不健康/63ebdb7d-8bdb-48f0-a68d-cba4ca95d9a7.png',
-    'assest/图标/不健康/64d4c5d9-dcc4-4a9f-b1ae-fa355cce0a55.png',
-    'assest/图标/不健康/67183a44-fab9-4188-9822-fec7956741fd.png',
-    'assest/图标/不健康/8689caf3-9181-4080-a72e-5dc6f322e084.png',
-    'assest/图标/不健康/8d93e1a2-c10c-4414-bd9e-2a3dcd6117d5.png',
-    'assest/图标/不健康/9bc7febc-2a73-4b65-8f87-79a23bb2887e.png',
-    'assest/图标/不健康/a3ba61fb-a716-40a3-ac3f-3c19b1e686ef.png',
-    'assest/图标/不健康/b3fc0f55-dfe1-4d41-8d01-51e7a35d8133.png',
-    'assest/图标/不健康/c01ceba0-3cae-4f27-98bb-a7134c3919be.png',
-    'assest/图标/不健康/d6f19a40-3882-421d-9bdf-6ebe0872d17c.png',
-    'assest/图标/不健康/dc18e2e0-2a71-4213-ba0b-3aa3a4fcdcb2.png',
-    'assest/图标/不健康/f4c877fe-637e-42ef-ab1f-13d051423fc6.png',
-    'assest/图标/不健康/f9a02a16-5c22-414c-bae1-8cfb3914673a.png'
+    'assest/icons/unhealthy/0232b197-3ea6-46df-b6d3-80b2d2fb1814.png',
+    'assest/icons/unhealthy/0ced470a-40d8-4ec0-8cb9-bfd751521f64.png',
+    'assest/icons/unhealthy/1b3ae1df-eaa3-4f0f-aadc-51f24a9de94c.png',
+    'assest/icons/unhealthy/2f2eab87-a0d9-4675-93c5-f91217ccafe1.png',
+    'assest/icons/unhealthy/35874331-b8b9-4fee-a4f2-c0e0afb58ba6.png',
+    'assest/icons/unhealthy/44bfea62-576c-45cd-bd26-713fa9a345c9.png',
+    'assest/icons/unhealthy/63ebdb7d-8bdb-48f0-a68d-cba4ca95d9a7.png',
+    'assest/icons/unhealthy/64d4c5d9-dcc4-4a9f-b1ae-fa355cce0a55.png',
+    'assest/icons/unhealthy/67183a44-fab9-4188-9822-fec7956741fd.png',
+    'assest/icons/unhealthy/8689caf3-9181-4080-a72e-5dc6f322e084.png',
+    'assest/icons/unhealthy/8d93e1a2-c10c-4414-bd9e-2a3dcd6117d5.png',
+    'assest/icons/unhealthy/9bc7febc-2a73-4b65-8f87-79a23bb2887e.png',
+    'assest/icons/unhealthy/a3ba61fb-a716-40a3-ac3f-3c19b1e686ef.png',
+    'assest/icons/unhealthy/b3fc0f55-dfe1-4d41-8d01-51e7a35d8133.png',
+    'assest/icons/unhealthy/c01ceba0-3cae-4f27-98bb-a7134c3919be.png',
+    'assest/icons/unhealthy/d6f19a40-3882-421d-9bdf-6ebe0872d17c.png',
+    'assest/icons/unhealthy/dc18e2e0-2a71-4213-ba0b-3aa3a4fcdcb2.png',
+    'assest/icons/unhealthy/f4c877fe-637e-42ef-ab1f-13d051423fc6.png',
+    'assest/icons/unhealthy/f9a02a16-5c22-414c-bae1-8cfb3914673a.png'
   ],
   score: 0,
   items: [],

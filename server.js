@@ -413,21 +413,21 @@ http.createServer((req, res) => {
     const assestPath = path.join(__dirname, 'assest');
     if (fs.existsSync(assestPath)) {
       fs.readdirSync(assestPath).forEach(f => console.log('  ', f));
-      console.log('--- assest/图标/ 目录 ---');
-      const iconPath = path.join(assestPath, '图标');
+      console.log('--- assest/icons/ 目录 ---');
+      const iconPath = path.join(assestPath, 'icons');
       if (fs.existsSync(iconPath)) {
         fs.readdirSync(iconPath).forEach(f => console.log('  ', f));
-        console.log('--- assest/图标/健康/ 文件数 ---');
-        const healthPath = path.join(iconPath, '健康');
+        console.log('--- assest/icons/healthy/ 文件数 ---');
+        const healthPath = path.join(iconPath, 'healthy');
         if (fs.existsSync(healthPath)) {
           const files = fs.readdirSync(healthPath);
           console.log('  文件数:', files.length);
           files.slice(0, 3).forEach(f => console.log('  示例:', f));
         } else {
-          console.log('  ❌ 健康 文件夹不存在');
+          console.log('  ❌ healthy 文件夹不存在');
         }
       } else {
-        console.log('  ❌ 图标 文件夹不存在');
+        console.log('  ❌ icons 文件夹不存在');
       }
     } else {
       console.log('  ❌ assest 文件夹不存在！');
